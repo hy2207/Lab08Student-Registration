@@ -13,10 +13,10 @@ namespace StudentRegistrationApp
         {
             InitializeComponent();
             this.Text = "Student Registration App";
-            this.Load += (s, e) => InitializeStudentRegistrationFormsAppMainForm();
+            this.Load += (s, e) => StudentRegistrationFormsAppMainForm();
         }
 
-        private void InitializeStudentRegistrationFormsAppMainForm()
+        private void StudentRegistrationFormsAppMainForm()
         {
             StudentRegistrationEntities context = new StudentRegistrationEntities();
             context.SeedDatabase();

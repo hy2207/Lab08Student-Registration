@@ -13,33 +13,29 @@ namespace StudentRegistrationApp
         {
             InitializeComponent();
             this.Text = "Student Registration App";
-            this.Load += (s, e) => InitializeStudentRegistrationFormsAppMainForm();
-        }
-
-        private void InitializeStudentRegistrationFormsAppMainForm()
-        {
+           
             StudentRegistrationEntities context = new StudentRegistrationEntities();
             context.SeedDatabase();
-            
+
             InitializeDataGridView<Student>(dataGridViewStudents, "Department", "Courses");
             InitializeDataGridView<Department>(dataGridViewDepartments, "Courses", "Students");
             InitializeDataGridView<Course>(dataGridViewCourses, "Students", "Department");
-            
+
             dataGridViewRegistrations.AllowUserToAddRows = false;
             dataGridViewRegistrations.AllowUserToDeleteRows = true;
             dataGridViewRegistrations.ReadOnly = true;
             dataGridViewRegistrations.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
 
             var registrations = (from student in context.Students
-                                        from course in student.Courses
-                                        select new
-                                        {
-                                            student.Department.DepartmentCode,
-                                            CouseNumber = course.CourseNumber,
-                                            course.CourseName,
-                                            student.StudentId,
-                                            student.StudentLastName
-                                        }).ToList();
+                                 from course in student.Courses
+                                 select new
+                                 {
+                                     student.Department.DepartmentCode,
+                                     CouseNumber = course.CourseNumber,
+                                     course.CourseName,
+                                     student.StudentId,
+                                     student.StudentLastName
+                                 }).ToList();
 
             dataGridViewRegistrations.DataSource = registrations;
         }

@@ -13,11 +13,12 @@ namespace StudentRegistrationApp
         {
             InitializeComponent();
             this.Text = "Student Registration App";
-            this.Load += (s, e) => InitializeStudentRegistrationFormsAppMainForm();
+            this.Load += (s, e) => StudentRegistrationFormsAppMainForm_Load();
         }
 
-        private void InitializeStudentRegistrationFormsAppMainForm()
+        private void StudentRegistrationFormsAppMainForm_Load()
         {
+
             StudentRegistrationEntities context = new StudentRegistrationEntities();
             context.SeedDatabase();
             
@@ -50,7 +51,7 @@ namespace StudentRegistrationApp
             datagridView.AllowUserToDeleteRows = true;
             datagridView.ReadOnly = true;
             datagridView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            datagridView.UserDeletingRow += (s, e) => DeleteRow<T>(s as DataGridView, e);
+            datagridView.UserDeletingRow += (s, e) => DeletingRow<T>(s as DataGridView, e);
             datagridView.DataError += (s, e) => HandleError<T>(s as DataGridView, e);
             datagridView.DataSource = Controller<StudentRegistrationEntities, T>.SetBindingList();
 
@@ -60,7 +61,7 @@ namespace StudentRegistrationApp
             }
         }
 
-        private void DeleteRow<T>(DataGridView dataGridView, DataGridViewRowCancelEventArgs e) where T : class
+        private void DeletingRow<T>(DataGridView dataGridView, DataGridViewRowCancelEventArgs e) where T : class
         {
             T eachItem = e.Row.DataBoundItem as T;
             Controller<StudentRegistrationEntities, Course>.GetEntitiesWithIncluded("Department");
