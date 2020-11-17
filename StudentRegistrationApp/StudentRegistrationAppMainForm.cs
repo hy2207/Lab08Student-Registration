@@ -4,16 +4,23 @@ using System.Linq;
 using System.Windows.Forms;
 using SeedDatabaseExtensions;
 using System.Diagnostics;
+using System.ComponentModel;
+using System.Data.Entity;
 
 namespace StudentRegistrationApp
 {
     public partial class StudentRegistrationAppMainForm : Form
     {
+        private StudentRegistrationEntities context;
         public StudentRegistrationAppMainForm()
         {
             InitializeComponent();
             this.Text = "Student Registration App";
             this.Load += (s, e) => InitializeStudentRegistrationFormsAppMainForm();
+
+            //add and update form
+            AddOrUpdateStudent addOrUpdateStudent = new AddOrUpdateStudent();
+            buttonAddOrUpdateStudent.Click += (s, e) => AddOrUpdateForm<Student>(dataGridViewStudents, addOrUpdateStudent);
         }
 
         private void InitializeStudentRegistrationFormsAppMainForm()
@@ -86,5 +93,40 @@ namespace StudentRegistrationApp
         {
             e.Cancel = true;
         }
+
+        private void AddOrUpdateForm<T>(DataGridView dataGridView, Form form) where T : class
+        {
+            var result = form.ShowDialog();
+
+            // form has closed
+
+            if (result == DialogResult.OK)
+            {
+                // reload the db and update the gridview
+
+                if (form.Tag != null)
+                {
+                    int id = (int)form.Tag;
+
+                    T entity = context.Set<T>().Find(id);
+                    context.Entry<T>(entity).Reload();
+                }
+                else dataGridView.DataSource = SetBindingList<T>();
+
+                dataGridView.Refresh();
+
+            }
+
+            form.Hide();
+        }
+        private BindingList<T> SetBindingList<T>() where T : class
+        {
+            DbSet<T> dbSet = context.Set<T>();
+
+            dbSet.Load();
+            BindingList<T> list = dbSet.Local.ToBindingList<T>();
+            return list;
+        }
+
     }
 }
