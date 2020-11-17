@@ -33,7 +33,11 @@ namespace StudentRegistrationApp
             //dispose of the context when the form is closed
             this.FormClosed += (s, e) => context.Dispose();
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void ListBoxStudnets_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (!(listBoxStudnets.SelectedItem is Student student))
@@ -42,8 +46,6 @@ namespace StudentRegistrationApp
             {
                 textBoxFirstName.Text = student.StudentFirstName;
                 textBoxLastName.Text = student.StudentLastName;
-                var selectedDepartmentId = student.DepartmentId;
-                listBoxDepartment.SelectedIndex = 0;
             }            
         }
 
@@ -82,7 +84,7 @@ namespace StudentRegistrationApp
             string selectedDepartmentCode = listBoxDepartment.SelectedItem.ToString();
 
             Department newDepartment = context.Departments.First(d => d.DepartmentCode == selectedDepartmentCode);
-           
+
             //get the student infromation from the textboxes
             Student newStudent = new Student()
             {
@@ -105,7 +107,12 @@ namespace StudentRegistrationApp
             context.Dispose();
             Close(); 
         }
-
+        /// <summary>
+        /// Load the student and department table
+        /// In department, only display department code
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void AddOrUpdateStudent_Load(object sender, EventArgs e)
         {
             this.Tag = null;
@@ -119,7 +126,6 @@ namespace StudentRegistrationApp
 
             // bind the listbox of studentst to the table.
             listBoxStudnets.DataSource = context.Students.Local.ToBindingList();
-
 
             //set department list box
             var departmentCode = context.Departments.OrderBy(x => x.DepartmentId).Select(x => x.DepartmentCode);
