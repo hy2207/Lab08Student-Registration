@@ -4,40 +4,38 @@ using System.Linq;
 using System.Windows.Forms;
 using SeedDatabaseExtensions;
 using System.Diagnostics;
-using System.ComponentModel;
-using System.Data.Entity;
 
 namespace StudentRegistrationApp
 {
     public partial class StudentRegistrationAppMainForm : Form
     {
-        private StudentRegistrationEntities context;
         public StudentRegistrationAppMainForm()
         {
             InitializeComponent();
-            this.Text = "Student Registration App";
-            this.Load += (s, e) => InitializeStudentRegistrationFormsAppMainForm();
 
-            //add and update form
-            AddOrUpdateStudent addOrUpdateStudent = new AddOrUpdateStudent();
-            buttonAddOrUpdateStudent.Click += (s, e) => AddOrUpdateForm<Student>(dataGridViewStudents, addOrUpdateStudent);
+            this.Text = "Student Registration App";
+            this.Load += (s, e) => StudentRegistrationFormsAppMainForm_Load();
         }
 
-        private void InitializeStudentRegistrationFormsAppMainForm()
+        private void StudentRegistrationFormsAppMainForm_Load()
         {
-            StudentRegistrationEntities context = new StudentRegistrationEntities();
-            context.SeedDatabase();
-            
+            using (StudentRegistrationEntities context = new StudentRegistrationEntities())
+            {
+                context.SeedDatabase();
+            }
+
             InitializeDataGridView<Student>(dataGridViewStudents, "Department", "Courses");
             InitializeDataGridView<Department>(dataGridViewDepartments, "Courses", "Students");
             InitializeDataGridView<Course>(dataGridViewCourses, "Students", "Department");
-            
+
+            StudentRegistrationEntities entitiesContext = new StudentRegistrationEntities();
+
             dataGridViewRegistrations.AllowUserToAddRows = false;
             dataGridViewRegistrations.AllowUserToDeleteRows = true;
             dataGridViewRegistrations.ReadOnly = true;
             dataGridViewRegistrations.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
 
-            var registrations = (from student in context.Students
+            var studentRegistrations = (from student in entitiesContext.Students
                                         from course in student.Courses
                                         select new
                                         {
@@ -48,7 +46,8 @@ namespace StudentRegistrationApp
                                             student.StudentLastName
                                         }).ToList();
 
-            dataGridViewRegistrations.DataSource = registrations;
+            dataGridViewRegistrations.DataSource = studentRegistrations;
+
         }
 
         private void InitializeDataGridView<T>(DataGridView datagridView, params string[] columnsToHide) where T : class
@@ -57,8 +56,8 @@ namespace StudentRegistrationApp
             datagridView.AllowUserToDeleteRows = true;
             datagridView.ReadOnly = true;
             datagridView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            datagridView.UserDeletingRow += (s, e) => DeleteRow<T>(s as DataGridView, e);
-            datagridView.DataError += (s, e) => HandleError<T>(s as DataGridView, e);
+            datagridView.UserDeletingRow += (s, e) => DeletingRow<T>(s as DataGridView, e);
+            datagridView.DataError += (s, e) => HandleDataError<T>(s as DataGridView, e);
             datagridView.DataSource = Controller<StudentRegistrationEntities, T>.SetBindingList();
 
             foreach (string column in columnsToHide)
@@ -67,7 +66,7 @@ namespace StudentRegistrationApp
             }
         }
 
-        private void DeleteRow<T>(DataGridView dataGridView, DataGridViewRowCancelEventArgs e) where T : class
+        private void DeletingRow<T>(DataGridView dataGridView, DataGridViewRowCancelEventArgs e) where T : class
         {
             T eachItem = e.Row.DataBoundItem as T;
             Controller<StudentRegistrationEntities, Course>.GetEntitiesWithIncluded("Department");
@@ -89,44 +88,9 @@ namespace StudentRegistrationApp
             dataGridViewRegistrations.Refresh();
         }
 
-        private void HandleError<T>(DataGridView gridView, DataGridViewDataErrorEventArgs e)
+        private void HandleDataError<T>(DataGridView gridView, DataGridViewDataErrorEventArgs e)
         {
             e.Cancel = true;
         }
-
-        private void AddOrUpdateForm<T>(DataGridView dataGridView, Form form) where T : class
-        {
-            var result = form.ShowDialog();
-
-            // form has closed
-
-            if (result == DialogResult.OK)
-            {
-                // reload the db and update the gridview
-
-                if (form.Tag != null)
-                {
-                    int id = (int)form.Tag;
-
-                    T entity = context.Set<T>().Find(id);
-                    context.Entry<T>(entity).Reload();
-                }
-                else dataGridView.DataSource = SetBindingList<T>();
-
-                dataGridView.Refresh();
-
-            }
-
-            form.Hide();
-        }
-        private BindingList<T> SetBindingList<T>() where T : class
-        {
-            DbSet<T> dbSet = context.Set<T>();
-
-            dbSet.Load();
-            BindingList<T> list = dbSet.Local.ToBindingList<T>();
-            return list;
-        }
-
     }
 }
