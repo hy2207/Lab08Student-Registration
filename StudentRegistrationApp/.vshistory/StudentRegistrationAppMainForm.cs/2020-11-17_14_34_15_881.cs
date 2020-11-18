@@ -61,7 +61,7 @@ namespace StudentRegistrationApp
             datagridView.ReadOnly = true;
             datagridView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             datagridView.UserDeletingRow += (s, e) => DeleteRow<T>(s as DataGridView, e);
-            datagridView.DataError += (s, e) => HandleExceptions<T>(s as DataGridView, e);
+            datagridView.DataError += (s, e) => HandleError<T>(s as DataGridView, e);
             datagridView.DataSource = Controller<StudentRegistrationEntities, T>.SetBindingList();
 
             foreach (string column in columnsToHide)
@@ -70,12 +70,6 @@ namespace StudentRegistrationApp
             }
         }
 
-        /// <summary>
-        /// Method to delete a row in Data Grids
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="dataGridView"></param>
-        /// <param name="e"></param>
         private void DeleteRow<T>(DataGridView dataGridView, DataGridViewRowCancelEventArgs e) where T : class
         {
             T eachItem = e.Row.DataBoundItem as T;
@@ -98,14 +92,7 @@ namespace StudentRegistrationApp
             dataGridViewRegistrations.Refresh();
         }
 
-
-        /// <summary>
-        /// Method to Handle expections.
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="gridView"></param>
-        /// <param name="e"></param>
-        private void HandleExceptions<T>(DataGridView gridView, DataGridViewDataErrorEventArgs e)
+        private void HandleError<T>(DataGridView gridView, DataGridViewDataErrorEventArgs e)
         {
             e.Cancel = true;
         }
