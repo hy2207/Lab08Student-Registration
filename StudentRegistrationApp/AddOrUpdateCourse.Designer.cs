@@ -45,7 +45,7 @@
             this.labelCourses.AutoSize = true;
             this.labelCourses.Location = new System.Drawing.Point(31, 49);
             this.labelCourses.Name = "labelCourses";
-            this.labelCourses.Size = new System.Drawing.Size(75, 21);
+            this.labelCourses.Size = new System.Drawing.Size(60, 17);
             this.labelCourses.TabIndex = 0;
             this.labelCourses.Text = "Courses";
             // 
@@ -57,6 +57,7 @@
             this.listBoxCourse.Name = "listBoxCourse";
             this.listBoxCourse.Size = new System.Drawing.Size(168, 132);
             this.listBoxCourse.TabIndex = 1;
+            this.listBoxCourse.SelectedIndexChanged += new System.EventHandler(this.listBoxCourse_SelectedIndexChanged);
             // 
             // listBoxDepartment
             // 
@@ -72,7 +73,7 @@
             this.labelDepartment.AutoSize = true;
             this.labelDepartment.Location = new System.Drawing.Point(31, 218);
             this.labelDepartment.Name = "labelDepartment";
-            this.labelDepartment.Size = new System.Drawing.Size(103, 21);
+            this.labelDepartment.Size = new System.Drawing.Size(82, 17);
             this.labelDepartment.TabIndex = 2;
             this.labelDepartment.Text = "Department";
             // 
@@ -104,7 +105,7 @@
             this.labelCourseName.AutoSize = true;
             this.labelCourseName.Location = new System.Drawing.Point(12, 418);
             this.labelCourseName.Name = "labelCourseName";
-            this.labelCourseName.Size = new System.Drawing.Size(118, 21);
+            this.labelCourseName.Size = new System.Drawing.Size(94, 17);
             this.labelCourseName.TabIndex = 6;
             this.labelCourseName.Text = "Course Name";
             // 
@@ -116,6 +117,7 @@
             this.buttonAdd.TabIndex = 8;
             this.buttonAdd.Text = "Add";
             this.buttonAdd.UseVisualStyleBackColor = true;
+            this.buttonAdd.Click += new System.EventHandler(this.buttonAdd_Click);
             // 
             // buttonUpdate
             // 
@@ -125,6 +127,7 @@
             this.buttonUpdate.TabIndex = 9;
             this.buttonUpdate.Text = "Update";
             this.buttonUpdate.UseVisualStyleBackColor = true;
+            this.buttonUpdate.Click += new System.EventHandler(this.buttonUpdate_Click);
             // 
             // AddOrUpdateCourse
             // 
@@ -143,6 +146,7 @@
             this.Controls.Add(this.labelCourses);
             this.Name = "AddOrUpdateCourse";
             this.Text = "AddOrUpdateCourse";
+            this.Load += new System.EventHandler(this.AddOrUpdateCourse_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 

@@ -134,7 +134,7 @@
             this.labelCourses.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.labelCourses.Location = new System.Drawing.Point(42, 268);
             this.labelCourses.Name = "labelCourses";
-            this.labelCourses.Size = new System.Drawing.Size(78, 24);
+            this.labelCourses.Size = new System.Drawing.Size(62, 19);
             this.labelCourses.TabIndex = 6;
             this.labelCourses.Text = "Courses";
             // 
@@ -154,7 +154,7 @@
             this.labelRegistration.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.labelRegistration.Location = new System.Drawing.Point(42, 486);
             this.labelRegistration.Name = "labelRegistration";
-            this.labelRegistration.Size = new System.Drawing.Size(116, 24);
+            this.labelRegistration.Size = new System.Drawing.Size(93, 19);
             this.labelRegistration.TabIndex = 9;
             this.labelRegistration.Text = "Registrations";
             // 
@@ -209,6 +209,7 @@
             this.Controls.Add(this.labelStudents);
             this.Name = "StudentRegistrationAppMainForm";
             this.Text = "Form1";
+            //this.Load += new System.EventHandler(this.StudentRegistrationAppMainForm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewStudents)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewDepartments)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewCourses)).EndInit();

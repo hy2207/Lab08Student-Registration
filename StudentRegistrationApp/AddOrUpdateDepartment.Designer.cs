@@ -45,13 +45,14 @@
             this.listBoxDepartment.Name = "listBoxDepartment";
             this.listBoxDepartment.Size = new System.Drawing.Size(143, 180);
             this.listBoxDepartment.TabIndex = 0;
+            this.listBoxDepartment.SelectedIndexChanged += new System.EventHandler(this.listBoxDepartment_SelectedIndexChanged);
             // 
             // labelDepartmentCode
             // 
             this.labelDepartmentCode.AutoSize = true;
             this.labelDepartmentCode.Location = new System.Drawing.Point(19, 218);
             this.labelDepartmentCode.Name = "labelDepartmentCode";
-            this.labelDepartmentCode.Size = new System.Drawing.Size(149, 21);
+            this.labelDepartmentCode.Size = new System.Drawing.Size(119, 17);
             this.labelDepartmentCode.TabIndex = 1;
             this.labelDepartmentCode.Text = "Department Code";
             // 
@@ -67,7 +68,7 @@
             this.labelDepartmentName.AutoSize = true;
             this.labelDepartmentName.Location = new System.Drawing.Point(19, 314);
             this.labelDepartmentName.Name = "labelDepartmentName";
-            this.labelDepartmentName.Size = new System.Drawing.Size(154, 21);
+            this.labelDepartmentName.Size = new System.Drawing.Size(123, 17);
             this.labelDepartmentName.TabIndex = 3;
             this.labelDepartmentName.Text = "Department Name";
             // 
@@ -86,6 +87,7 @@
             this.buttonAdd.TabIndex = 5;
             this.buttonAdd.Text = "Add";
             this.buttonAdd.UseVisualStyleBackColor = true;
+            this.buttonAdd.Click += new System.EventHandler(this.buttonAdd_Click);
             // 
             // buttonUpdate
             // 
@@ -95,6 +97,7 @@
             this.buttonUpdate.TabIndex = 6;
             this.buttonUpdate.Text = "Update";
             this.buttonUpdate.UseVisualStyleBackColor = true;
+            this.buttonUpdate.Click += new System.EventHandler(this.buttonUpdate_Click);
             // 
             // AddOrUpdateDepartment
             // 
@@ -110,6 +113,7 @@
             this.Controls.Add(this.listBoxDepartment);
             this.Name = "AddOrUpdateDepartment";
             this.Text = "AddOrUpdateDepartment";
+            this.Load += new System.EventHandler(this.AddOrUpdateDepartment_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 
