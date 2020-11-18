@@ -22,8 +22,12 @@ namespace StudentRegistrationApp
 
         private void AddOrUpdateDepartment_Load(object sender, EventArgs e)
         {
+            // Loading all the departments data in the department list.
+            // deselecting all the options.
             listBoxDepartment.DataSource = Controller<StudentRegistrationEntities, Department>.SetBindingList();
             listBoxDepartment.SelectedIndex = -1;
+            
+            // Clearing all the textboxes from the initial load.
             textBoxDepartmentCode.ResetText();
             textBox1.ResetText();
         }
@@ -47,7 +51,10 @@ namespace StudentRegistrationApp
             selectedDepartment.DepartmentName = textBox1.Text;
 
             if (Controller<StudentRegistrationEntities, Department>.UpdateEntity(selectedDepartment))
+            {
                 MessageBox.Show("Department Updated Successfully!");
+                this.DialogResult = DialogResult.OK;
+            }
             else
                 MessageBox.Show("Error Updating Department!");
             this.AddOrUpdateDepartment_Load(sender, e);
@@ -59,12 +66,16 @@ namespace StudentRegistrationApp
             newDepartment.DepartmentCode = textBoxDepartmentCode.Text;
             newDepartment.DepartmentName = textBox1.Text;
 
-            Department existingDept = Controller<StudentRegistrationEntities, Department>.GetEntities(d => d.DepartmentCode == newDepartment.DepartmentCode).FirstOrDefault();
+            Department existingDept = Controller<StudentRegistrationEntities, Department>.
+                GetEntities(d => d.DepartmentCode == newDepartment.DepartmentCode).FirstOrDefault();
             if (existingDept == null)
             {
                 newDepartment = Controller<StudentRegistrationEntities, Department>.AddEntity(newDepartment);
                 if (newDepartment != null)
+                {
                     MessageBox.Show("Department created Successfully!");
+                    this.DialogResult = DialogResult.OK;
+                }
                 else
                     MessageBox.Show("Error creating new Department!");
             }
