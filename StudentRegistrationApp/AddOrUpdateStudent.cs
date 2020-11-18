@@ -34,7 +34,7 @@ namespace StudentRegistrationApp
             this.FormClosed += (s, e) => context.Dispose();
         }
         /// <summary>
-        /// 
+        /// loaded it when user select index in student list box is changed
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -48,7 +48,12 @@ namespace StudentRegistrationApp
                 textBoxLastName.Text = student.StudentLastName;
             }
         }
-
+        /// <summary>
+        /// When click the update button after selecting one of student list
+        /// User can update student name and department
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void ButtonUpdate_Click(object sender, EventArgs e)
         {
             if (!(listBoxStudnets.SelectedItem is Student student))
@@ -72,17 +77,21 @@ namespace StudentRegistrationApp
                 MessageBox.Show("Cannot update student to database" + ex.InnerException.InnerException.Message);
                 return;
             }
-            //this.Tag = customer.CustId;  // so parent form can lookup id and reload
-            // if everyting is ok, get rid of the context, and close the form.
+
             this.DialogResult = DialogResult.OK;
             context.Dispose();
             Close();
         }
-
+        /// <summary>
+        /// User can add student based on selecting department
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void ButtonAdd_Click(object sender, EventArgs e)
         {
             string selectedDepartmentCode = listBoxDepartment.SelectedItem.ToString();
 
+            //find department based on selected department code
             Department newDepartment = context.Departments.First(d => d.DepartmentCode == selectedDepartmentCode);
 
             //get the student infromation from the textboxes
