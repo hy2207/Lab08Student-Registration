@@ -30,7 +30,11 @@ namespace StudentRegistrationApp
             //set drop button
             buttonDrop.Click += ButtonDrop_Click;
         }
-
+        /// <summary>
+        /// Drop by selecting registration 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void ButtonDrop_Click(object sender, EventArgs e)
         {
             StudentRegistrationEntities context = new StudentRegistrationEntities();
